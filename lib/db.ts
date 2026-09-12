@@ -115,7 +115,10 @@ export async function verifyOTP(phone: string, countryCode: string, code: string
   `;
   const row = rows[0] as any;
   if (!row) return false;
-  if (Date.now() > Number(row.expires_at)) return false;
+  if (Date.now() > Number(row.expires_at)) {
+    await sql`DELETE FROM otps WHERE id = ${row.id}`;
+    return false;
+  }
   await sql`UPDATE otps SET verified = TRUE WHERE id = ${row.id}`;
   return true;
 }

@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 
     // Do NOT create user yet — wait for OTP verification
     return NextResponse.json(
-      { message: 'Verification code sent. Enter code to complete registration.', phone, countryCode, firstName, lastName, password, role: userRole },
+      { message: 'Verification code saved. (Dev mode — check DB or response).', otp, phone, countryCode, firstName, lastName, password, role: userRole },
       { status: 201 }
     );
   } catch (error) {
