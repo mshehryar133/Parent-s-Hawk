@@ -28,29 +28,30 @@ if (!DATABASE_URL) {
 
 const sql = neon(DATABASE_URL);
 
-await sql`
-  CREATE TABLE IF NOT EXISTS users (
-    id TEXT PRIMARY KEY,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    country_code TEXT NOT NULL,
-    password TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT 'parent',
-    parent_id TEXT,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  )
-`;
-
-await sql`
-  CREATE TABLE IF NOT EXISTS otps (
-    id SERIAL PRIMARY KEY,
-    phone TEXT NOT NULL,
-    code TEXT NOT NULL,
-    expires_at BIGINT NOT NULL,
-    verified BOOLEAN DEFAULT FALSE
-  )
-`;
+export async function initDB() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      first_name TEXT NOT NULL,
+      last_name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      country_code TEXT NOT NULL,
+      password TEXT NOT NULL,
+      role TEXT NOT NULL DEFAULT 'parent',
+      parent_id TEXT,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS otps (
+      id SERIAL PRIMARY KEY,
+      phone TEXT NOT NULL,
+      code TEXT NOT NULL,
+      expires_at BIGINT NOT NULL,
+      verified BOOLEAN DEFAULT FALSE
+    )
+  `;
+}
 
 export async function getUsers(): Promise<User[]> {
   const rows = await sql`
