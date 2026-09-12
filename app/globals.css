@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* ── Design Tokens: Family Ledger ── */
+:root {
+  --color-deep-charcoal: #0F172A;
+  --color-warm-brass: #D4AF37;
+  --color-cream: #FDFBF7;
+  --color-surface: #FAF9F6;
+  --color-card: #FFFFFF;
+  --color-border: #E8E4DD;
+  --color-text-primary: #1A202C;
+  --color-text-secondary: #64748B;
+  --color-accent: #0D4038;
+  --color-accent-warm: #B45309;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Geist", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+/* Parchment grain texture */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "phone": "+1 1",
+    "code": "286708",
+    "expiresAt": 1789044478848,
+    "verified": false
+  },
+  {
+    "phone": "+1 asdas",
+    "code": "674307",
+    "expiresAt": 1789046496352,
+    "verified": false
+  },
+  {
+    "phone": "+1 qwesd",
+    "code": "504439",
+    "expiresAt": 1789046959141,
+    "verified": false
+  }
+]
