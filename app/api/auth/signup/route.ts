@@ -17,16 +17,13 @@ export async function POST(request: Request) {
     // Default role: 'parent' if not specified, otherwise use provided role
     const userRole = role === 'child' ? 'child' : 'parent';
 
-    // Generate OTP
+    // Generate OTP — don't create user yet
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     await saveOTP(phone, countryCode, otp);
 
-    // Create user with role
-    const user = await createUser({ firstName, lastName, phone, countryCode, password, role: userRole });
-    await clearOTP(phone, countryCode);
-
+    // Do NOT create user yet — wait for OTP verification
     return NextResponse.json(
-      { message: 'Account created successfully', user },
+      { message: 'Verification code sent. Enter code to complete registration.', phone, countryCode, firstName, lastName, password, role: userRole },
       { status: 201 }
     );
   } catch (error) {
