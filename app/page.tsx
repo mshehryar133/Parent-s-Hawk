@@ -351,11 +351,11 @@ const [role, setRole] = useState<'parent' | 'child'>('parent');
               <p className="text-[#64748B] mt-2">A complete, tamper-resistant record of your family's financial activity.</p>
             </div>
             <div className="flex items-center gap-4">
-              <div className="bg-[#0D4038] text-white px-6 py-4 rounded-2xl shadow-xl shadow-[#0D4038]/10">
+              <div className="flex-1 bg-[#0D4038] text-white px-6 py-4 rounded-2xl shadow-xl shadow-[#0D4038]/10">
                 <div className="text-xs uppercase tracking-widest text-[#D4AF37] font-semibold">Total Spent ({SYMBOL[currency]})</div>
                 <div className="text-3xl font-extrabold text-[#D4AF37]">{fmt(selectedTotal)}</div>
               </div>
-              <div className="bg-[#0D4038] text-white px-6 py-4 rounded-2xl shadow-xl shadow-[#0D4038]/10">
+              <div className="flex-1 bg-[#0D4038] text-white px-6 py-4 rounded-2xl shadow-xl shadow-[#0D4038]/10">
                 <div className="text-xs uppercase tracking-widest text-[#D4AF37] font-semibold">Overall Total</div>
                 <div className="text-3xl font-extrabold text-[#D4AF37]">{fmt(overallTotal)}</div>
                 <div className="text-[10px] text-white/60 mt-1">All currencies converted to {SYMBOL[currency]}</div>
