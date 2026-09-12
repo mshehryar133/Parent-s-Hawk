@@ -26,10 +26,10 @@ if (!DATABASE_URL) {
   throw new Error('Missing NEON_DATABASE_URL environment variable');
 }
 
-const sql = neon(DATABASE_URL);
+export const sql = neon(DATABASE_URL);
 let initPromise: Promise<void> | null = null;
 
-async function ensureDB() {
+export async function ensureDB() {
   if (!initPromise) initPromise = initDB();
   await initPromise;
 }
