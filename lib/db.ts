@@ -27,6 +27,12 @@ if (!DATABASE_URL) {
 }
 
 const sql = neon(DATABASE_URL);
+let initPromise: Promise<void> | null = null;
+
+async function ensureDB() {
+  if (!initPromise) initPromise = initDB();
+  await initPromise;
+}
 
 export async function initDB() {
   await sql`
@@ -54,6 +60,7 @@ export async function initDB() {
 }
 
 export async function getUsers(): Promise<User[]> {
+  await ensureDB();
   const rows = await sql`
     SELECT id, first_name AS "firstName", last_name AS "lastName",
            phone, country_code AS "countryCode", password, role,
@@ -64,6 +71,7 @@ export async function getUsers(): Promise<User[]> {
 }
 
 export async function getUserByPhone(phone: string, countryCode: string): Promise<User | null> {
+  await ensureDB();
   const rows = await sql`
     SELECT id, first_name AS "firstName", last_name AS "lastName",
            phone, country_code AS "countryCode", password, role,
@@ -75,6 +83,7 @@ export async function getUserByPhone(phone: string, countryCode: string): Promis
 }
 
 export async function createUser(user: Omit<User, 'id' | 'createdAt'>): Promise<User> {
+  await ensureDB();
   const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
   const createdAt = new Date().toISOString();
   await sql`
@@ -85,11 +94,13 @@ export async function createUser(user: Omit<User, 'id' | 'createdAt'>): Promise<
 }
 
 export async function getOTPs(): Promise<OTP[]> {
+  await ensureDB();
   const rows = await sql`SELECT id, phone, code, expires_at AS "expiresAt", verified FROM otps`;
   return rows as OTP[];
 }
 
 export async function saveOTP(phone: string, countryCode: string, code: string): Promise<void> {
+  await ensureDB();
   await sql`
     INSERT INTO otps (phone, code, expires_at, verified)
     VALUES (${`${countryCode} ${phone}`}, ${code}, ${Date.now() + 5 * 60 * 1000}, FALSE)
@@ -97,6 +108,7 @@ export async function saveOTP(phone: string, countryCode: string, code: string):
 }
 
 export async function verifyOTP(phone: string, countryCode: string, code: string): Promise<boolean> {
+  await ensureDB();
   const rows = await sql`
     SELECT id, expires_at FROM otps
     WHERE phone = ${`${countryCode} ${phone}`} AND code = ${code} AND verified = FALSE
@@ -109,6 +121,7 @@ export async function verifyOTP(phone: string, countryCode: string, code: string
 }
 
 export async function isOTPVerified(phone: string, countryCode: string): Promise<boolean> {
+  await ensureDB();
   const rows = await sql`
     SELECT id FROM otps WHERE phone = ${`${countryCode} ${phone}`} AND verified = TRUE
   `;
@@ -116,5 +129,6 @@ export async function isOTPVerified(phone: string, countryCode: string): Promise
 }
 
 export async function clearOTP(phone: string, countryCode: string): Promise<void> {
+  await ensureDB();
   await sql`DELETE FROM otps WHERE phone = ${`${countryCode} ${phone}`}`;
 }
