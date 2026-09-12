@@ -347,6 +347,7 @@ const [role, setRole] = useState<'parent' | 'child'>('parent');
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
             <div>
               <h2 className="text-4xl font-extrabold text-[#0D4038] tracking-tight">Parent's Hawk</h2>
+              <p className="text-[#D4AF37] font-bold mt-1">{firstName ? `${firstName} ${lastName}` : 'Family Monitor'}</p>
               <p className="text-[#64748B] mt-2">A complete, tamper-resistant record of your family's financial activity.</p>
             </div>
             <div className="flex items-center gap-4">
